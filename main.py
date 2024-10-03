@@ -11,8 +11,12 @@ import os
 # pip install pocketsphinx
 
 recognizer = sr.Recognizer()
-engine = pyttsx3.init() 
+engine = pyttsx3.init()
 newsapi = "<Your Key Here>"
+
+# Update the file paths to the location of your PPT and PDF files
+ppt_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Presentation.pptx"
+pdf_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Document.pdf"
 
 def speak_old(text):
     engine.say(text)
@@ -39,15 +43,14 @@ def speak(text):
     os.remove("temp.mp3") 
 
 def aiProcess(command):
-    client = OpenAI(api_key="<Your Key Here>",
-    )
+    client = OpenAI(api_key="<Your Key Here>")
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "You are a virtual assistant named jarvis skilled in general tasks like Alexa and Google Cloud. Give short responses please"},
-        {"role": "user", "content": command}
-    ]
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a virtual assistant named Jarvis skilled in general tasks like Alexa and Google Cloud. Give short responses please."},
+            {"role": "user", "content": command}
+        ]
     )
 
     return completion.choices[0].message.content
@@ -65,7 +68,6 @@ def processCommand(c):
         song = c.lower().split(" ")[1]
         link = musicLibrary.music[song]
         webbrowser.open(link)
-
     elif "news" in c.lower():
         r = requests.get(f"https://newsapi.org/v2/top-headlines?country=in&apiKey={newsapi}")
         if r.status_code == 200:
@@ -74,19 +76,26 @@ def processCommand(c):
             
             # Extract the articles
             articles = data.get('articles', [])
-            
+
             # Print the headlines
             for article in articles:
                 speak(article['title'])
+    
+    # New functionality to open specific files
+    elif "open induction ppt" in c.lower():
+        # Open the specified PPT file
+        os.startfile(ppt_file_path)
+        speak("Opening the induction presentation file.")
+        
+    elif "open induction pdf" in c.lower():
+        # Open the specified PDF file
+        os.startfile(pdf_file_path)
+        speak("Opening the induction document file.")
 
     else:
         # Let OpenAI handle the request
         output = aiProcess(c)
         speak(output) 
-
-
-
-
 
 if __name__ == "__main__":
     speak("Initializing Jarvis....")
@@ -103,7 +112,7 @@ if __name__ == "__main__":
             word = r.recognize_google(audio)
             if(word.lower() == "jarvis"):
                 print(word)
-                speak("Ya")
+                speak("Yes, I am listening.")
                 # Listen for command
                 with sr.Microphone() as source:
                     print("Jarvis Active...")
@@ -111,7 +120,6 @@ if __name__ == "__main__":
                     command = r.recognize_google(audio)
 
                     processCommand(command)
-
 
         except Exception as e:
             print("Error; {0}".format(e))
