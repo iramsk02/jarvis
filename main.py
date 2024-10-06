@@ -17,7 +17,7 @@ newsapi = "<Your Key Here>"
 # Update the file paths to the location of your PPT and PDF files
 ppt_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Presentation.pptx"
 pdf_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Document.pdf"
-
+pdf_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Document.pdf"#kulgeet
 def speak_old(text):
     engine.say(text)
     engine.runAndWait()
@@ -91,6 +91,11 @@ def processCommand(c):
         # Open the specified PDF file
         os.startfile(pdf_file_path)
         speak("Opening the induction document file.")
+        
+    elif "open induction video" in c.lower():
+        # Open the specified PDF file
+        os.startfile(pdf_file_path)
+        speak("playing kugeet")
 
     else:
         # Let OpenAI handle the request
