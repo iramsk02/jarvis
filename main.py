@@ -8,16 +8,16 @@ from gtts import gTTS
 import pygame
 import os
 
-# pip install pocketsphinx
+
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
 newsapi = "<Your Key Here>"
 
 # Update the file paths to the location of your PPT and PDF files
-ppt_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Presentation.pptx"
-pdf_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Document.pdf"
-pdf_file_path = "E:\\Iram Saba Khan\\Documents\\Induction_Document.pdf"#kulgeet
+ppt_file_path = "file_path"
+pdf_file_path = "pdf_path"
+pdf_file_path = "video_path"#kulgeet
 def speak_old(text):
     engine.say(text)
     engine.runAndWait()
